@@ -1,0 +1,200 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static "public/js/select-sumo/sumoselect.css" %}">
+<link rel="stylesheet" type="text/css" href="{% static "public/js/datepicker/datepicker.min.css" %}">
+<style>
+    input.date {
+        text-align: center;
+        padding: 5px !important;
+        border: 1px solid #A4A4A4 !important;
+        border-radius: 2px !important;
+        max-width: 140px;
+        box-shadow: none !important;
+
+    }
+
+    #Filter {
+        position: fixed;
+        top: 70px;
+        right: 10%;
+        z-index: 999;
+        opacity: .5;
+        background-color: rgba(255,255,255,.5);
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    #Filter .selectAll {
+        display: none;
+    }
+
+    #Filter:hover {
+        opacity: 1;
+    }
+
+    #Filter:hover .selectAll {
+        display: inline;
+    }
+
+    #Filter .btn {
+        cursor: pointer;
+    }
+
+    #Filter .fltSection {
+        margin-right: 10px;
+    }
+</style>
+<!--<link rel="stylesheet" type="text/css" href="{% static "public/js/select/css/bootstrap-select.min.css" %}">-->
+
+<style>
+    .map, .chart {
+    width: 100%;
+    height: 500px;
+    background-color: rgb(240,240,240);
+    border: 1px solid rgb(230,230,230);
+    }
+
+    .chart {
+        max-width: 1150px;
+    }
+
+
+    #Filter {
+    position: static;
+    opacity: 1;
+    background-color: white;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid silver;
+    margin-bottom: 10px;
+    }
+
+    #Filter .selectAll {
+    display: none;
+    }
+
+    #Filter:hover {
+    opacity: 1;
+    }
+
+    #Filter .btn {
+    cursor: pointer;
+    }
+</style>
+
+<div id="Filter">
+
+
+    <div class="fltSection pull-left">
+        <sup>Durée</sup><br> <input id="SelDuree" type="text" data-range="true" data-multiple-dates-separator=" - " data-language="fr" class="datepicker-here date" placeholder="Intervalle de date">
+    </div>
+    <div class="fltSection pull-left">
+        <sup>Aggrégation</sup><br>
+        <select id="SelTypeAggr" class="selectpicker" placeholder="Selectionnez un type d'aggrégation">
+            <option departement value="Sum" selected="selected">Somme</option>
+            <option departement value="Avg">Moyenne</option>
+            <option departement value="Max">Maximum</option>
+            <option departement value="Min">Minimum</option>
+        </select>
+
+        <select id="SelTypeDuree" class="selectpicker" placeholder="Selectionnez au moins un Departement">
+            <option departement value="day">par jour</option>
+            <option departement value="month" selected="selected">par mois</option>
+            <option departement value="year">par année</option>
+        </select>
+    </div>
+
+    <div class="fltSection pull-left">
+        <sup>Type d'Observation</sup><br>
+        <select id="SelTypeObservation" class="selectpicker" placeholder="Selectionnez au moins un Type d'Observation">
+            {% if type_obs_lst %}
+            {% for type_obs in type_obs_lst %}
+            <option value="{{ type_obs.id }}">{{ type_obs.nom }}</option>
+            {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+
+    <div class="fltSection pull-left">
+        <sup>Département</sup><br>
+        <select id="SelDept" class="selectpickermulti" data-style="btn-info" multiple
+                placeholder="Selectionnez au moins un Département">
+            {% if dep_lst %}
+            {% for dept in dep_lst %}
+            <option departement selected="selected" value="{{ dept.id }}">{{ dept.nom }}</option>
+            {% endfor %}
+            {% endif %}
+        </select>
+    </div>
+    <div class="fltSection pull-left">
+        <sup></sup><br>
+        <img class="btn btn-default" src='{% static "public/img/reload.png" %}' title="Recharger" onclick="loadStations(); loadDataChart();">
+    </div>
+    <br style="clear: left;">
+</div>
+
+<ul class="nav nav-tabs" id="myTab">
+    <li role="carte_interactive" class="active">
+        <a href="#carte_interactive" aria-controls="carte_interactive" role="tab" data-toggle="tab">Carte
+            Interactive</a>
+    </li>
+    <li role="graphiques">
+        <a href="#graphiques" aria-controls="graphiques" role="tab" data-toggle="tab">Graphiques</a>
+    </li>
+    <li role="tableau">
+        <a href="#tableau" aria-controls="tableau" role="tab" data-toggle="tab">Tableau</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="carte_interactive">
+        <h2 class="sub-header">Statuts des différents stations</h2>
+
+        {% include "hydromet/includes/map_overview.html" %}
+
+        <div class="table-responsive">
+            <!-- <canvas id="canvas" height="450" width="750"></canvas>-->
+        </div>
+    </div>
+    <!--Fin sectionA-->
+    <!--Limit-->
+    <div role="tabpanel" class="tab-pane fade" id="graphiques">
+        <br>
+        {% include "hydromet/includes/chart_overview.html" %}
+    </div>
+    <!--Fin sectionB-->
+    <!--Limit-->
+    <div role="tabpanel" class="tab-pane fade" id="tableau">
+        <br>
+        {% include "hydromet/includes/table_overview.html" %}
+
+    </div>
+
+</div>
+
+<script src="{% static "public/js/select-sumo/jquery.sumoselect.min.js" %}"></script>
+<script src="{% static "public/js/datepicker/datepicker.min.js" %}"></script>
+<script src="{% static "public/js/datepicker/datepicker.fr.js" %}"></script>
+<script src="{% static "public/js/js_cookie.js" %}"></script>
+
+<!--<script src="{% static "public/js/select/js/bootstrap-select.min.js" %}"></script>-->
+
+<script>
+    $(document).ready(function(){
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        $('.selectpicker').SumoSelect({
+            captionFormat: '{0} selectionné(s)',
+            csvDispCount: 0,
+        });
+
+        $('.selectpickermulti').SumoSelect({
+            captionFormat: '{0} selectionné(s)',
+            csvDispCount: 0,
+            selectAll : true,
+            selectAlltext : 'Tout sélectionner'
+        });
+    });
+</script>

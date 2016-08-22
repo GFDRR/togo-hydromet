@@ -1,0 +1,215 @@
+/* Carousel base class */
+.carousel {
+  height: 500px;
+  margin-bottom: 60px;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 10;
+  -color: black;
+  -text-shadow: none;
+  background-color: rgba(0,0,0,.3);
+  border-radius: 5px;
+  -box-shadow: 0 0 10px rgba(0,0,0,.8);
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+  height: 500px;
+  background-color: #777;
+  background: #efedef;
+}
+.carousel-inner > .item > img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 500px;
+}
+
+
+
+.footer-basic-centered{
+	background-color: #222;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: center;
+	font: normal 18px sans-serif;
+
+	padding: 15px;
+	margin-top: 80px;
+
+	position: fixed;
+	bottom :0;
+	z-index: 1000;
+}
+
+.footer-basic-centered .footer-company-motto{
+	color:  #8d9093;
+	font-size: 18px;
+	margin: 0;
+}
+
+.footer-basic-centered .footer-company-name{
+	color:  #8f9296;
+	font-size: 12px;
+	margin: 0;
+}
+
+.footer-basic-centered .footer-links{
+	list-style: none;
+	font-weight: bold;
+	color:  #ffffff;
+	padding: 35px 0 23px;
+	margin: 0;
+}
+
+.footer-basic-centered .footer-links a{
+	display:inline-block;
+	text-decoration: none;
+	color: inherit;
+}
+
+.content {
+	margin-top: 120px;
+}
+
+
+
+.nav-sidebar {
+	background-color: rgb(245, 245, 245);
+	border-right: 1px solid rgb(238, 238, 238);
+}
+
+.nav-sidebar li.active {
+	margin-right: -16px;
+}
+
+.nav-sidebar li.active a {
+	color: white;
+}
+
+
+
+@media (min-width: 768px) {
+
+	.navbar, .navbar .subtitle, .navbar h1, .navbar #Menu li a {
+		transition: all .5s ease;
+	}
+
+	.navbar {
+		background-color: rgb(34, 34, 34);
+		box-shadow: 0 0 20px rgba(0,0,0,.5);
+		height: 50px;
+	}
+
+	.navbar .subtitle {
+		display: none;
+	}
+
+	.navbar .navbar-brand {
+		padding: 10px 15px;
+		width: 150px;
+	}
+
+	.navbar img {
+		width:40px;
+		float: left;
+	}
+
+
+	.navbar h1 {
+		font-size: 15pt;
+		margin:0;
+		padding-top: 5px;
+		margin-left: 55px;
+		color: white;
+		font-family: Times New Roman;
+	}
+
+	.navbar.big {
+		background-color: rgba(0,0,0,.8);
+		box-shadow: 0 0 20px rgba(0,0,0,.5);
+		height: 85px;
+	}
+
+
+	.navbar.big .navbar-header {
+		width: 150px;
+		-overflow: hidden;
+	}
+
+	.navbar.big #navbar {
+		height: 50px;
+	}
+
+	.navbar.big #Menu li a {
+		padding-top: 50px;
+	}
+
+	.navbar.big .navbar-brand {
+		width: 160px;
+		padding: 15px;
+
+	}
+
+	.navbar.big .navbar-brand img {
+		width: 60px !important;
+		height: 50px !important;
+		float: left;
+	}
+
+	.navbar.big .navbar-brand h1 {
+		margin: 0;
+		margin-left: 70px;
+		font-size: 16pt;
+		height: 50px;
+		padding:0;
+		padding-top: 32px;
+	}
+
+	.navbar.big .subtitle {
+		display: inline;
+		font-size: 4.5pt;
+		color: #9d9d9d !important;
+	}
+
+	.navbar .admin {
+		border-radius: 0 0 5px 5px;
+	}
+}
+
+@media (min-width: 1000px) {
+
+	.navbar.big .navbar-header {
+		width: 250px;
+	}
+
+	.navbar.big .navbar-brand {
+		width: 250px;
+		padding: 15px;
+	}
+
+	.navbar.big .navbar-brand img {
+		width: 62px !important;
+		height: 50px !important;
+		float: left;
+	}
+
+	.navbar.big .navbar-brand h1 {
+		margin: 0;
+		margin-left: 85px;
+		font-size: 30pt;
+		height: 50px;
+		padding:0;
+		padding-top: 15px;
+	}
+
+	.navbar.big .subtitle {
+		display: inline;
+		font-size: 7pt;
+		color: #9d9d9d !important;
+	}
+
+}

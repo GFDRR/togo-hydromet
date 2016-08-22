@@ -1,0 +1,113 @@
+{% load staticfiles %}
+
+
+<div id="Chart" class="chart"></div>
+
+<br><br>
+
+<!--<script src="{% static "public/js/Chart.js" %}"></script>-->
+<!--<script src="{% static "public/js/amcharts/amcharts.js" %}"></script>-->
+<!--<script src="{% static "public/js/amcharts/serial.js" %}"></script>-->
+<script src="{% static "public/js/highcharts/highcharts.js" %}"></script>
+<script src="{% static "public/js/highcharts/modules/exporting.js" %}"></script>
+
+<script>
+    var chart;
+    var dataChart;
+    var optionsChart;
+
+	$('document').ready(function(){
+        $('#Chart').highcharts({
+                    chart: {
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: 'Rapport sur les Observations Hydrométéorologiques'
+                    },
+                    subtitle: {
+                        text: document.ontouchstart === undefined ?
+                                'Cliquez sur le graphique et Faites Glisser le curseur pour zoomer' : 'Pincez le graphe pour zoomer'
+                    },
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Valeurs observées'
+                        }
+                    },
+                    legend: {
+                        enabled: true
+                    },
+                    plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: {
+                                    x1: 0,
+                                    y1: 0,
+                                    x2: 0,
+                                    y2: 1
+                                },
+                                stops: [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]
+                            },
+                            marker: {
+                                radius: 2
+                            },
+                            lineWidth: 1,
+                            states: {
+                                hover: {
+                                    lineWidth: 1
+                                }
+                            },
+                            threshold: null
+                        }
+                    },
+
+
+                });
+
+
+		loadDataChart();
+
+	});
+
+
+    function loadDataChart(){
+        $.ajax({
+			method: "POST",
+			type: 'json',
+			url: "/hydromet/chart_overview/",
+			data: { 'sel_dept': $('#SelDept').val(), 'sel_duree': $('#SelDuree').val(), 'sel_type_aggr': $('#SelTypeAggr').val(), 'sel_type_duree': $('#SelTypeDuree').val(), 'sel_type_observation': $('#SelTypeObservation').val(),},
+			headers: { "X-CSRFToken":  Cookies.get("csrftoken")  },
+			success : function(data) {
+			    var chart =  $('#Chart').highcharts();
+
+
+			    while(chart.series.length > 0)
+                    chart.series[0].remove(true);
+
+			    $.each(data.dept_lst, function(key, value) {
+
+                    data = [];
+
+                    $.each(value, function( index, value ) {
+                        data.push([Date.parse(value.date), parseFloat(value.value)]);
+                        //alert(Date.parse(value.date)+' || '+ value.date)
+                    });
+
+                    chart.addSeries({
+                        type: 'line',
+                        name: key,
+                        data: data
+                    });
+                });
+
+
+            }
+		});
+
+    }
+</script>
