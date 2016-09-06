@@ -22,24 +22,22 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-         'NAME': 'togohydromet.db',
-     }
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': 'togohydromet.db',
+    }
 
-     #Config for PostGIS
-     #'default': {
-     #    'ENGINE': 'django.contrib.gis.db.backends.postgis',
-     #    'NAME': 'base_lapli',
-     #    'USER': 'postgres',
-     #    'PASSWORD': 'postgres',
-     #    'HOST': '127.0.0.1',
-     #    'PORT': '3389',
-     #}
+    # Config for PostGIS
+    # 'default': {
+    #    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    #    'NAME': 'base_lapli',
+    #    'USER': 'postgres',
+    #    'PASSWORD': 'postgres',
+    #    'HOST': '127.0.0.1',
+    #    'PORT': '3389',
+    # }
 
 }
-
-
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -125,7 +123,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'togohydromet.context_processors.get_infos',
-    #'togohydromet.context_processors.app_list',
+    # 'togohydromet.context_processors.app_list',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -203,7 +201,7 @@ LOGGING = {
     }
 }
 
-#JET_DEFAULT_THEME = 'green'
+# JET_DEFAULT_THEME = 'green'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -211,7 +209,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'mod_wsgi.server',
+    # 'mod_wsgi.server',
     'suit',
     'easy_select2',
 
@@ -225,6 +223,7 @@ INSTALLED_APPS = (
     'selectable',
     'geoposition',
     'import_export',
+    'leaflet',
 
     # RapidSMS
     'rapidsms',
@@ -235,14 +234,14 @@ INSTALLED_APPS = (
     'rapidsms.contrib.messagelog',
     'rapidsms.contrib.messaging',
     'rapidsms.contrib.registration',
-    #"rapidsms.contrib.echo',
+    # "rapidsms.contrib.echo',
 
     # SMS Lapli Apps
     'base',
     'hydromet',
     'public',
-    #'rapport',
-    'sms_gateway', #This is the one who will be used to handle sms
+    # 'rapport',
+    'sms_gateway',  # This is the one who will be used to handle sms
 
     # Must Be last
     'rapidsms.contrib.default',
@@ -253,17 +252,29 @@ INSTALLED_BACKENDS = {
         "ENGINE": "rapidsms.backends.database.DatabaseBackend",
     },
 
-    "kannel-usb0-smsc" : {
-        "ENGINE":  "rapidsms.backends.kannel.KannelBackend",
-        "sendsms_url": "http://127.0.0.1:14000/cgi-bin/sendsms",
-        "sendsms_params": {"smsc": "usb0-modem",
-                           "from": "+50934772370", # not set automatically by SMSC
-                           "username": "rapidsms",
-                           "password": "CHANGE-ME"}, # or set in localsettings.py
+    "kannel-api-smsc": {
+        "ENGINE": "rapidsms.backends.kannel.KannelBackend",
+        "sendsms_url": "http://127.0.0.1:13027/cgi-bin/sendsms",
+        "sendsms_params": {"smsc": "smpp",
+                           "from": "+50934772370",  # not set automatically by SMSC
+                           "username": "tester",
+                           "password": "foobar"},  # or set in localsettings.py
         "coding": 0,
         "charset": "ascii",
-        "encode_errors": "ignore", # strip out unknown (unicode) characters
+        "encode_errors": "ignore",  # strip out unknown (unicode) characters
     },
+
+    # "kannel-usb0-smsc": {
+    #     "ENGINE": "rapidsms.backends.kannel.KannelBackend",
+    #     "sendsms_url": "http://127.0.0.1:14000/cgi-bin/sendsms",
+    #     "sendsms_params": {"smsc": "usb0-modem",
+    #                        "from": "+50934772370",  # not set automatically by SMSC
+    #                        "username": "rapidsms",
+    #                        "password": "CHANGE-ME"},  # or set in localsettings.py
+    #     "coding": 0,
+    #     "charset": "ascii",
+    #     "encode_errors": "ignore",  # strip out unknown (unicode) characters
+    # },
 }
 
 DEFAULT_RESPONSE = "Message incorrect!"
@@ -289,23 +300,46 @@ SUIT_CONFIG = {
         '-',
 
         # Rename app and set icon
-        {'app': 'hydromet', 'icon':'icon-tint', 'models': ({'label':'Rapport', 'url':'/admin/hydromet/rapport/'},'Observation', 'Station', 'ObservateurHydromet', 'TypeObservation', 'TypeStation', 'Reseau', 'Log', 'AlerteHydrometeorologique')},
-        {'app': 'rapidsms', 'icon':'icon-tint'},
+        {'app': 'hydromet', 'icon': 'icon-tint', 'models': (
+        {'label': 'Rapport', 'url': '/admin/hydromet/rapport/'}, 'Observation', 'Station', 'ObservateurHydromet',
+        'TypeObservation', 'TypeStation', 'Reseau', 'Log', 'AlerteHydrometeorologique')},
+        {'app': 'rapidsms', 'icon': 'icon-tint'},
 
-         # Separator
+        # Separator
         '-',
 
         # Reorder app models
-        {'app': 'base', 'icon':'icon-th-list', 'models': ('Personne', 'Observatoire',  'Poste', 'UniteMesure',  'Limite', 'TypeLimite', 'Zone', 'TypeZone')},
+        {'app': 'base', 'icon': 'icon-th-list',
+         'models': ('Personne', 'Observatoire', 'Poste', 'UniteMesure', 'Limite', 'TypeLimite', 'Zone', 'TypeZone')},
 
         # Reorder app models
-        {'app': 'auth', 'icon':'icon-user', 'label': 'Authentification et Droits', 'models': ('user', 'group')},
+        {'app': 'auth', 'icon': 'icon-user', 'label': 'Authentification et Droits', 'models': ('user', 'group')},
 
         '-',
-        {'label':'Voir le site', 'icon':'icon-globe', 'url':'/'},
+        {'label': 'Voir le site', 'icon': 'icon-globe', 'url': '/'},
         '-',
-
 
     )
 }
 
+GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCrbr6oh-UhPGn0cHCqubcF2B_1qbt6wP8'
+
+LEAFLET_CONFIG = {
+    #'SPATIAL_EXTENT': (5.0, 44.0, 7.5, 46)
+    'DEFAULT_CENTER': (8.674241, 1.125785),
+    'DEFAULT_ZOOM': 7,
+    'MIN_ZOOM': 3,
+    'MAX_ZOOM': 18,
+    'PLUGINS': {
+        'filelayer': {
+        'js': 'public/js/leaflet/import/leaflet.filelayer.js',
+        'auto-include': True,
+        },
+        'togeojson': {
+        'js': 'public/js/leaflet/import/togeojson.js',
+        'auto-include': True,
+        },
+    }
+}
+
+#SPATIALITE_LIBRARY_PATH = 'mod_spatialite'

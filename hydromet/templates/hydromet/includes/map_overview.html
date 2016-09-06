@@ -1,10 +1,14 @@
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static "public/js/leaflet/leaflet.css" %}">
+{% load leaflet_tags %}
+{% leaflet_js plugins="filelayer" %}
+{% leaflet_css %}
+<!--<link rel="stylesheet" type="text/css" href="{% static "public/js/leaflet/leaflet.css" %}">-->
 
 <!--<span class="btn btn-default btn-xs pull-right" onclick="centerMap();">Exportrer</span>-->
-<span class="btn btn-default btn-xs pull-right" onclick="centerMap();">Recentrer la carte</span>
+<span class="btn btn-default btn-xs pull-right" onclick="centerMap();">Recentrer la carte</span><br><br>
 
-	<div id="Map" class="map"></div>
+	<!--<div id="Map" class="map"></div>-->
+{% leaflet_map "Map" callback="window.main_map_init" %}
 	<div id="Legend">
 	    <ul style="list-style: none; margin-top: 10px;">
 	        <li><img src="{% static "public/js/leaflet/markers/high_activity.png" %}"> Station dont les données sont <strong>à jour</strong></li>
@@ -15,7 +19,7 @@
 	</div>
 
 <br><br>
-<script src="{% static "public/js/leaflet/leaflet.js" %}"></script>
+<!--<script src="{% static "public/js/leaflet/leaflet.js" %}"></script>-->
 <script>
 	var map;
 	var greenIcon;
@@ -24,22 +28,32 @@
 	var grayIcon;
 	var blueIcon;
 	var markers = new L.FeatureGroup();
-	var centerPos = [18.934610, -72.988237];
-	var zoomVal = 8;
+	//var centerPos = [18.934610, -72.988237];
+	var centerPos = [8.674241, 1.125785];
+	var zoomVal = 7;
+
+	function main_map_init(map, options) {
+		var style = {color:'red', opacity: 1.0, fillOpacity: 1.0, weight: 2, clickable: false};
+        //L.Control.FileLayerLoad.LABEL = '<img class="icon" src="folder.svg" alt="file icon"/>';
+        L.Control.fileLayerLoad({
+
+        }).addTo(map);
+
+	}
 
 	$('document').ready(function(){
 
-		map = L.map('Map').setView(centerPos, zoomVal);
-		var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {});
-		var cartoCdn = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {});
-		cartoCdn.addTo(map);
+//		map = L.map('Map');//.setView(centerPos, zoomVal);
+//		var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {});
+//		var cartoCdn = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {});
+//		cartoCdn.addTo(map);
 
 		greenIcon = L.icon({iconUrl: '{% static "public/js/leaflet/markers/high_activity.png" %}'});
 		orangeIcon = L.icon({iconUrl: '{% static "public/js/leaflet/markers/low_activity.png" %}'});
 		redIcon = L.icon({iconUrl: '{% static "public/js/leaflet/markers/no_activity.png" %}'});
 		grayIcon = L.icon({iconUrl: '{% static "public/js/leaflet/markers/off_activity.png" %}'});
 
-		loadStations();
+		//loadStations();
 
 	});
 

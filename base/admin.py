@@ -1,4 +1,5 @@
 from django.contrib.gis import admin
+from leaflet.admin import LeafletGeoAdmin
 
 # Register your models here.
 
@@ -47,7 +48,7 @@ admin.site.register(Observatoire, ObservatoireAdmin)
 admin.site.register(Poste)
 admin.site.register(Personne, PersonneAdmin)
 admin.site.register(TypeLimite, TypeLimiteAdmin)
-admin.site.register(Limite, LimiteAdmin)
+admin.site.register(Limite, LeafletGeoAdmin)
 admin.site.register(UniteMesure)
 admin.site.register(Zone)
 admin.site.register(TypeZone)

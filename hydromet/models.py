@@ -45,7 +45,7 @@ class Station(models.Model):
     limite = models.ForeignKey(Limite, null=True, blank=True, verbose_name="Zone",)
     #latitude = models.FloatField(blank=True, null=True)
     #longitude = models.FloatField(blank=True, null=True)
-    coordonnees_x_y = GeopositionField(null=True, blank=True, verbose_name="Position")
+    coordonnees_x_y = models.PointField(null=True, blank=True, verbose_name="Position")
     #position = models.PointField(null=True, blank=True)
     hauteur = models.DecimalField(max_digits=8, decimal_places=2, default=0, blank=True, null=True)
     nom = models.CharField(max_length=45, verbose_name="Nom de la Station")

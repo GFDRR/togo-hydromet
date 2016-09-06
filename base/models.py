@@ -36,7 +36,6 @@ class Limite(models.Model):
     code = models.CharField(max_length=20, blank=True)
     type = models.CharField(max_length=2, choices=TYPE_LIMITE, null=True, blank=True)
     shape = models.PolygonField(null=True, blank=True)
-    polygon = models.MultiPolygonField(null=True, blank=True)
     timestamp_add = models.DateTimeField(auto_now_add=True)
     timestamp_update = models.DateTimeField(auto_now=True)
     objects = models.GeoManager()

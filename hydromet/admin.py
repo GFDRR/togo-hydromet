@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.gis import admin
+from leaflet.admin import LeafletGeoAdmin
 
 # Register your models here.
 from hydromet.models import TypeStationTypeObservation, TypeStation, ObservateurHydromet, Observation, TypeObservation, Station, Log, AlerteHydrometeorologique, Reseau
@@ -97,7 +98,7 @@ class TypeObservationAdmin(admin.ModelAdmin):
 
 
 # Added all in the register
-admin.site.register(Station, StationAdmin)
+admin.site.register(Station, LeafletGeoAdmin)
 admin.site.register(TypeStation, TypeStationAdmin)
 admin.site.register(Observation, ObservationAdmin)
 admin.site.register(ObservateurHydromet, ObservateurAdmin)
