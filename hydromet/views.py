@@ -12,6 +12,7 @@ from base.models import Limite
 from hydromet.models import Station, Observation, TypeObservation
 
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 
 
 def local_to_utc(t):
@@ -19,6 +20,7 @@ def local_to_utc(t):
     savings into account"""
     secs = time.mktime(t)
     return time.gmtime(secs)
+
 
 def map_overview(request):
     dept_lst = request.POST.getlist('sel_dept[]')
@@ -112,7 +114,7 @@ def chart_overview(request):
 
     return JsonResponse({'dept_lst': result_set})
 
-
+@csrf_exempt
 def rapport(request):
     departement_lst = Limite.objects.filter(typelimite__niveau=1)
     type_observation_lst = TypeObservation.objects.all()

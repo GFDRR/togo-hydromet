@@ -212,6 +212,7 @@ INSTALLED_APPS = (
     # 'mod_wsgi.server',
     'suit',
     'easy_select2',
+    'rest_framework',
 
     'django.contrib.admin',
     'django.contrib.humanize',
@@ -224,6 +225,7 @@ INSTALLED_APPS = (
     'geoposition',
     'import_export',
     'leaflet',
+
 
     # RapidSMS
     'rapidsms',
@@ -340,6 +342,13 @@ LEAFLET_CONFIG = {
         'auto-include': True,
         },
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'UNICODE_JSON': False
 }
 
 #SPATIALITE_LIBRARY_PATH = 'mod_spatialite'

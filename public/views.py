@@ -14,7 +14,7 @@ def faq(request):
 
 
 def pluviometrie(request):
-    departement_lst = Limite.objects.filter(typelimite__nom='Département')
+    departement_lst = Limite.objects.filter(typelimite__niveau='1')
     type_observation_lst = TypeObservation.objects.all()
     month_lst = []
     selDate = datetime.date.today()

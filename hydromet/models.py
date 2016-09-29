@@ -3,6 +3,7 @@ from django.contrib.gis.db import models
 from base.models import Personne, Limite, UniteMesure
 from django.contrib.auth.models import Group
 from geoposition.fields import GeopositionField
+from django.core import serializers
 
 
 #  -------------------------------------------
@@ -43,11 +44,8 @@ class Reseau(models.Model):
 class Station(models.Model):
     reseau = models.ForeignKey(Reseau, null=True, blank=True)
     limite = models.ForeignKey(Limite, null=True, blank=True, verbose_name="Zone",)
-    #latitude = models.FloatField(blank=True, null=True)
-    #longitude = models.FloatField(blank=True, null=True)
-    coordonnees_x_y = models.PointField(null=True, blank=True, verbose_name="Position")
-    #position = models.PointField(null=True, blank=True)
-    hauteur = models.DecimalField(max_digits=8, decimal_places=2, default=0, blank=True, null=True)
+    coordonnees_x_y = models.PointField(null=True, blank=True, verbose_name="Position (Latitude, Logitude)")
+    elevation = models.DecimalField(max_digits=8, decimal_places=2, default=0, blank=True, null=True)
     nom = models.CharField(max_length=45, verbose_name="Nom de la Station")
     code = models.CharField(max_length=45, verbose_name="Code de la Station", null=True, blank=True,
                             help_text="Le code est optionnel.")
@@ -59,8 +57,33 @@ class Station(models.Model):
     objects = models.GeoManager()
 
     @property
-    def typelimite(self):
-        return self.limite.typelimite
+    def type_limite(self): # __unicode__ on Python 2
+        return self.limite.typelimite.nom
+
+    @property
+    def nom_limite(self):  # __unicode__ on Python 2
+        return self.limite.nom
+
+    @property
+    def nom_reseau(self):  # __unicode__ on Python 2
+        return self.reseau.nom
+
+    @property
+    def nom_typestation(self):  # __unicode__ on Python 2
+        return self.typestation.marque
+
+    @property
+    def type_observation(self):
+        list_type_observations = []
+        for type_obs_type_st in self.typestation.typestationtypeobservation_set.all():
+            list_type_observations.append({
+                'type': type_obs_type_st.typeobservation.nom,
+                'unite': type_obs_type_st.unitemesure.nom,
+                'sos_standard': type_obs_type_st.sos_standard,
+                'qualite': type_obs_type_st.qualite,
+            })
+
+        return list_type_observations
 
     def __str__(self):  # __unicode__ on Python 2
         return self.nom
@@ -80,10 +103,33 @@ class ObservateurHydromet(models.Model):
         return "%s : %s " % (self.personne, self.station)
 
 
+class CategorieTypeObservation(models.Model):
+    nom = models.CharField(max_length=45)
+    unitemesure = models.ForeignKey(UniteMesure, verbose_name="Unite de mesure par défaut", null=True, blank=True)
+    description = models.TextField(max_length=100, blank=True)
+    code = models.CharField(max_length=45, verbose_name="Code du Type d'Obeservation", null=True, blank=True,
+                            help_text="Le code est optionnel. Optez de préférence pour une lettre.")
+    max_value = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True,
+                                    verbose_name="Valeur Maximale Acceptée")
+    min_value = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True,
+                                    verbose_name="Valeur Minimale Acceptée")
+    timestamp_add = models.DateTimeField(auto_now_add=True)
+    timestamp_update = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Catégorie des Types d'Observations Hydrométéorologiques"
+        verbose_name_plural = "Types d'Observation"
+
+    def __str__(self):  # __unicode__ on Python 2
+        return "%s" % self.nom
+
+
 class TypeObservation(models.Model):
     nom = models.CharField(max_length=45)
     unitemesure = models.ForeignKey(UniteMesure, verbose_name="Unite de mesure par défaut", null=True, blank=True)
     description = models.TextField(max_length=100, blank=True)
+    code = models.CharField(max_length=45, verbose_name="Code du Type d'Obeservation", null=True, blank=True,
+                            help_text="Le code est optionnel. Optez de préférence pour une lettre.")
     max_value = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True,
                                     verbose_name="Valeur Maximale Acceptée")
     min_value = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True,
@@ -113,6 +159,10 @@ class TypeStationTypeObservation(models.Model):
         verbose_name_plural = "Types d'Observations Hydrométéorologiques"
         unique_together = ('typestation', 'typeobservation',)
 
+    @property
+    def nom_typeobservation(self):  # __unicode__ on Python 2
+        return "%s" % "s"
+
     def __str__(self):  # __unicode__ on Python 2
         return "%s" % self.unitemesure
 
@@ -135,6 +185,14 @@ class Observation(models.Model):
     @property
     def code_departement(self):
         return self.code[:2]
+
+    @property
+    def nom_typeobservation(self):
+        return self.typeobservation.nom
+
+    @property
+    def unite_typeobservation(self):
+        return self.typeobservation.unitemesure.nom
 
     def __str__(self):  # __unicode__ on Python 2
         return "%s : %s" % (self.time_result, self.value)

@@ -93,7 +93,7 @@ class LogAdmin(admin.ModelAdmin):
 
 
 class TypeObservationAdmin(admin.ModelAdmin):
-    list_display = ("nom", "unitemesure")
+    list_display = ("nom", "code", "unitemesure")
     search_fields = ["nom"]
 
 

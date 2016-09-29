@@ -30,6 +30,10 @@ urlpatterns = [
     url(r'^backend/kannel-usb0-smsc/$', KannelBackendView.as_view(backend_name='kannel-usb0-smsc')),
     url(r'^select2/', include('django_select2.urls')),
 
+    # API
+    url(r'^api/v1/', include('api.urls', 'api')),
+
+
     # SMS Lapli URLs
     #url(r'^rapport/pluviometrie/$','public.views.rpluie'),
     #url(r'^rapport/json_rap/', 'public.views.json_rap'),
