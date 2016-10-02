@@ -226,7 +226,6 @@ INSTALLED_APPS = (
     'import_export',
     'leaflet',
 
-
     # RapidSMS
     'rapidsms',
     'admin_reorder',
@@ -293,7 +292,7 @@ ADMIN_REORDER = (
 )
 
 SUIT_CONFIG = {
-    'ADMIN_NAME': 'SMS Lapli',
+    'ADMIN_NAME': 'Togo Hydromet',
     'LIST_PER_PAGE': 20,
     'SEARCH_URL': '',
     'MENU': (
@@ -303,20 +302,24 @@ SUIT_CONFIG = {
 
         # Rename app and set icon
         {'app': 'hydromet', 'icon': 'icon-tint', 'models': (
-        {'label': 'Rapport', 'url': '/admin/hydromet/rapport/'}, 'Observation', 'Station', 'ObservateurHydromet',
-        'TypeObservation', 'TypeStation', 'Reseau', 'Log', 'AlerteHydrometeorologique')},
-        {'app': 'rapidsms', 'icon': 'icon-tint'},
+            {'label': 'Rapport', 'url': '/admin/hydromet/rapport/'}, 'Observation', 'Station', 'ObservateurHydromet',
+            'Reseau', 'Log', 'AlerteHydrometeorologique')},
 
+        # Reorder app models
+        {'app': 'base', 'icon': 'icon-th-list',
+         'models': ('Personne', 'Observatoire', 'Poste', 'Limite', 'Zone')},
+        {'icon': 'icon-cog', 'label': 'Paramètres',
+         'models': ('hydromet.TypeObservation', 'hydromet.CategorieTypeObservation', 'hydromet.TypeStation',
+                    'hydromet.UniteMesure', 'base.TypeLimite', 'base.TypeZone'
+                    )},
         # Separator
         '-',
 
         # Reorder app models
-        {'app': 'base', 'icon': 'icon-th-list',
-         'models': ('Personne', 'Observatoire', 'Poste', 'UniteMesure', 'Limite', 'TypeLimite', 'Zone', 'TypeZone')},
-
-        # Reorder app models
         {'app': 'auth', 'icon': 'icon-user', 'label': 'Authentification et Droits', 'models': ('user', 'group')},
 
+        '-',
+        {'app': 'rapidsms', 'icon': 'icon-envelope'},
         '-',
         {'label': 'Voir le site', 'icon': 'icon-globe', 'url': '/'},
         '-',
@@ -327,19 +330,19 @@ SUIT_CONFIG = {
 GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyCrbr6oh-UhPGn0cHCqubcF2B_1qbt6wP8'
 
 LEAFLET_CONFIG = {
-    #'SPATIAL_EXTENT': (5.0, 44.0, 7.5, 46)
+    # 'SPATIAL_EXTENT': (5.0, 44.0, 7.5, 46)
     'DEFAULT_CENTER': (8.674241, 1.125785),
     'DEFAULT_ZOOM': 7,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 18,
     'PLUGINS': {
         'filelayer': {
-        'js': 'public/js/leaflet/import/leaflet.filelayer.js',
-        'auto-include': True,
+            'js': 'public/js/leaflet/import/leaflet.filelayer.js',
+            'auto-include': True,
         },
         'togeojson': {
-        'js': 'public/js/leaflet/import/togeojson.js',
-        'auto-include': True,
+            'js': 'public/js/leaflet/import/togeojson.js',
+            'auto-include': True,
         },
     }
 }
@@ -351,4 +354,4 @@ REST_FRAMEWORK = {
     'UNICODE_JSON': False
 }
 
-#SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+# SPATIALITE_LIBRARY_PATH = 'mod_spatialite'

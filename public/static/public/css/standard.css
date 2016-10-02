@@ -110,22 +110,23 @@
 
 	.navbar .navbar-brand {
 		padding: 10px 15px;
-		width: 150px;
+		width: 250px;
 	}
 
 	.navbar img {
-		width:40px;
+		width:30px;
+		height: 30px;
 		float: left;
 	}
 
 
 	.navbar h1 {
-		font-size: 15pt;
+		font-size: 0.9em;
 		margin:0;
 		padding-top: 5px;
-		margin-left: 55px;
+		margin-left: 40px;
 		color: white;
-		font-family: Times New Roman;
+		font-family: 'Open Sans', sans-serif;
 	}
 
 	.navbar.big {
@@ -145,7 +146,8 @@
 	}
 
 	.navbar.big #Menu li a {
-		padding-top: 50px;
+		padding-top: 30px;
+		padding-bottom: 35px;
 	}
 
 	.navbar.big .navbar-brand {
@@ -162,11 +164,11 @@
 
 	.navbar.big .navbar-brand h1 {
 		margin: 0;
-		margin-left: 70px;
-		font-size: 16pt;
+		margin-left: 50px;
+		font-size: 0.5em;
 		height: 50px;
 		padding:0;
-		padding-top: 32px;
+		padding-top: 0px;
 	}
 
 	.navbar.big .subtitle {
@@ -192,18 +194,19 @@
 	}
 
 	.navbar.big .navbar-brand img {
-		width: 62px !important;
+		width: 50px !important;
 		height: 50px !important;
 		float: left;
 	}
 
 	.navbar.big .navbar-brand h1 {
 		margin: 0;
-		margin-left: 85px;
+		margin-left: 60px;
 		font-size: 30pt;
 		height: 50px;
 		padding:0;
 		padding-top: 15px;
+		font-size: 1em;
 	}
 
 	.navbar.big .subtitle {

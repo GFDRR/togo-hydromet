@@ -40,6 +40,9 @@ def station_observations(request, id_station="0", year="([0-9]{4})", month="([0-
 @permission_classes((IsAuthenticatedOrReadOnly,))
 def all_observations(request, year="([0-9]{4})", month="([0-9]{2})", day="([0-9]{2})", start_date="", end_date=""):
     if request.method == 'GET':
+        start_date = request.GET.get('start_date')
+        end_date = request.GET.get('end_date')
+
         # parameters : start_date; end_date; type_observation; aggregation;
         observations = Observation.objects.filter(valider=True, time_result__regex=r'' + year + '-' + month + '-' + day,
                                                   time_result__range=(start_date +' 01:00', end_date +' 01:00'))

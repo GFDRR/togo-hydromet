@@ -8,6 +8,7 @@
         <title>{% block title %}Acceuil{% endblock title %}</title>
         <link rel="stylesheet" type="text/css" href="{% static "public/js/bootstrap/css/bootstrap.min.css" %}">
         <link rel="stylesheet" type="text/css" href="{% static "public/css/standard.css" %}">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
         <script src="{% static "public/js/jquery/jquery-1.11.3.min.js" %}"></script>
         <script src="{% static "public/js/bootstrap/js/bootstrap.min.js" %}"></script>
@@ -34,19 +35,18 @@
               </button>
 
                     <div class="navbar-brand" href="http://www.cnsa509.org/" TARGET="_blank">
-                        <img src="{% static "public/img/logoMenu.png" %}">
-                        <h1>CNSA</h1>
-                       <span class="subtitle">Coordination Nationale de Sécurité Alimentaire</span>
+                        <img width="50" height="50" src="{% static "public/img/logoMenu.png" %}">
+                        <h1>Croix Rouge Togo</h1>
                     </div>
 
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="Menu" class="nav navbar-nav">
                     <li class="accueil" class="active"><a href="/accueil/">Accueil</a></li>
-                    <li class="pluviometrie"><a href="/rapport/pluviometrie/">Pluviom&eacute;trie</a></li>
-                    <li class="marche"><a href="/rapport/prix_marche/">Prix du March&eacute;</a></li>
-                    <li class="telechargement"><a href="#">Espace de Téléchargement</a></li>
-                    <li class="faq"><a href="#">FAQ</a></li>
+                    <li class="about"><a href="/accueil/">Qui sommes-nous</a></li>
+                    <li class="principes"><a href="/accueil/">Principes de la CRT</a></li>
+                    <li class="projets"><a href="/accueil/">Les Projets</a></li>
+                    <li class="pluviometrie"><a href="/rapport/pluviometrie/">Données</a></li>
                 </ul>
                 <a href="/admin/" class="admin vcenter btn nav-form btn-success navbar-right">ADMIN</a>
             </div>
@@ -59,7 +59,7 @@
         {% block content %}{% endblock content %}
 
         <footer class="footer-basic-centered fixed">
-            <p class="footer-company-name">Copyright &copy; 2015 CNSA. Tous droits réservés</p>
+            <p class="footer-company-name">Copyright &copy; 2015 Croix Rouge. Tous droits réservés</p>
         </footer>
 
         <script>

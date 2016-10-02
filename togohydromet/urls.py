@@ -10,8 +10,10 @@ urlpatterns = [
     url(r'^', include('public.urls', 'public')),
     url(r'^hydromet/', include('hydromet.urls', 'hydromet')),
 
+    url(r'^admin/$', 'togohydromet.views.home'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/hydromet/rapport/$', 'hydromet.views.rapport'),
+
 
 
     # RapidSMS base URLs

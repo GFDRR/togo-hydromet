@@ -95,9 +95,9 @@ class ObservateurHydromet(models.Model):
     actif = models.BooleanField(default=True)
 
     class Meta:
-        unique_together = ('station', 'personne')
-        verbose_name = "Observateur (Pluviométrique)"
-        verbose_name_plural = "Observateurs (Pluviométrique)"
+        #unique_together = ('station', 'personne')
+        verbose_name = "Observateur"
+        verbose_name_plural = "Observateurs"
 
     def __str__(self):  # __unicode__ on Python 2
         return "%s : %s " % (self.personne, self.station)
@@ -105,26 +105,20 @@ class ObservateurHydromet(models.Model):
 
 class CategorieTypeObservation(models.Model):
     nom = models.CharField(max_length=45)
-    unitemesure = models.ForeignKey(UniteMesure, verbose_name="Unite de mesure par défaut", null=True, blank=True)
     description = models.TextField(max_length=100, blank=True)
-    code = models.CharField(max_length=45, verbose_name="Code du Type d'Obeservation", null=True, blank=True,
-                            help_text="Le code est optionnel. Optez de préférence pour une lettre.")
-    max_value = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True,
-                                    verbose_name="Valeur Maximale Acceptée")
-    min_value = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True,
-                                    verbose_name="Valeur Minimale Acceptée")
     timestamp_add = models.DateTimeField(auto_now_add=True)
     timestamp_update = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Catégorie des Types d'Observations Hydrométéorologiques"
-        verbose_name_plural = "Types d'Observation"
+        verbose_name = "Catégorie des Types d'Observations"
+        verbose_name_plural = "Catégories des Types d'Observation"
 
     def __str__(self):  # __unicode__ on Python 2
         return "%s" % self.nom
 
 
 class TypeObservation(models.Model):
+    categorietypeobservation = models.ForeignKey(CategorieTypeObservation, null=True,  default=None, verbose_name="Catégorie");
     nom = models.CharField(max_length=45)
     unitemesure = models.ForeignKey(UniteMesure, verbose_name="Unite de mesure par défaut", null=True, blank=True)
     description = models.TextField(max_length=100, blank=True)
@@ -138,7 +132,7 @@ class TypeObservation(models.Model):
     timestamp_update = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Type d'Observations Hydrométéorologiques"
+        verbose_name = "Type d'Observations"
         verbose_name_plural = "Types d'Observation"
 
     def __str__(self):  # __unicode__ on Python 2

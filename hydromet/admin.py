@@ -3,7 +3,7 @@ from django.contrib.gis import admin
 from leaflet.admin import LeafletGeoAdmin
 
 # Register your models here.
-from hydromet.models import TypeStationTypeObservation, TypeStation, ObservateurHydromet, Observation, TypeObservation, Station, Log, AlerteHydrometeorologique, Reseau
+from hydromet.models import TypeStationTypeObservation, TypeStation, ObservateurHydromet, Observation, TypeObservation, Station, Log, AlerteHydrometeorologique, Reseau, CategorieTypeObservation
 from base.models import Limite
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -106,3 +106,4 @@ admin.site.register(Log, LogAdmin)
 admin.site.register(TypeObservation, TypeObservationAdmin)
 admin.site.register(AlerteHydrometeorologique)
 admin.site.register(Reseau)
+admin.site.register(CategorieTypeObservation)
